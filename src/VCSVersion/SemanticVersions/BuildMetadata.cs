@@ -62,38 +62,6 @@ namespace VCSVersion.SemanticVersions
             return ToString(null);
         }
 
-
-        /// <inheritdoc />
-        public bool Equals(BuildMetadata other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return CommitsSinceTag == other.CommitsSinceTag 
-                   && string.Equals(Branch, other.Branch, StringComparison.Ordinal) 
-                   && string.Equals(Hash, other.Hash, StringComparison.Ordinal);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((BuildMetadata) obj);
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = CommitsSinceTag.GetHashCode();
-                hashCode = (hashCode * 397) ^ (Branch?.GetHashCode() ?? 0);
-                hashCode = (hashCode * 397) ^ (Hash?.GetHashCode() ?? 0);
-                return hashCode;
-            }
-        }
-
         /// <summary>
         /// <para>b - Formats just the build number</para>
         /// <para>s - Formats the build number and the Commit Sha</para>
@@ -203,5 +171,38 @@ namespace VCSVersion.SemanticVersions
 
             return new BuildMetadata(commitsSinceTag, branch, sha, date, otherMetadata);
         }
+
+        #region IEquatable implementation (DupFinder Exclusion)
+        /// <inheritdoc />
+        public bool Equals(BuildMetadata other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return CommitsSinceTag == other.CommitsSinceTag
+                   && string.Equals(Branch, other.Branch, StringComparison.Ordinal)
+                   && string.Equals(Hash, other.Hash, StringComparison.Ordinal);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((BuildMetadata)obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = CommitsSinceTag.GetHashCode();
+                hashCode = (hashCode * 397) ^ (Branch?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ (Hash?.GetHashCode() ?? 0);
+                return hashCode;
+            }
+        }
+        #endregion
     }
 }

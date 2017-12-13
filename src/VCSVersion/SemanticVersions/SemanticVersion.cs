@@ -302,6 +302,7 @@ namespace VCSVersion.SemanticVersions
             }
         }
 
+        #region IEquatable implementation (DupFinder Exclusion)
         /// <inheritdoc />
         public bool Equals(SemanticVersion other)
         {
@@ -326,5 +327,6 @@ namespace VCSVersion.SemanticVersions
                 .Default
                 .GetHashCode(this);
         }
+        #endregion
     }
 }
