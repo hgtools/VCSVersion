@@ -22,4 +22,4 @@ ToolSettings.SetToolSettings(
         BuildParameters.RootDirectoryPath + "/src/VCSVersion/**/*.AssemblyInfo.cs"
     });
 
-Build.Run();
+Build.RunDotNetCore();
