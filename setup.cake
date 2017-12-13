@@ -10,6 +10,7 @@ BuildParameters.SetParameters(
     repositoryOwner: "vCipher",
     repositoryName: "VCSVersion",
     appVeyorAccountName: "vCipher",
+    shouldRunCodecov: false,
     solutionFilePath: "./src/VCSVersion.sln");
 
 BuildParameters.PrintParameters(Context);
