@@ -11,6 +11,7 @@ BuildParameters.SetParameters(
     repositoryName: "VCSVersion",
     appVeyorAccountName: "vCipher",
     shouldRunCodecov: false,
+    shouldRunDotNetCorePack: true,
     solutionFilePath: "./src/VCSVersion.sln");
 
 BuildParameters.PrintParameters(Context);

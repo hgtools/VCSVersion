@@ -1,14 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <AssemblyName>VCSVersion</AssemblyName>
+    <PackageId>VCSVersion</PackageId>
+    <Authors>vCipher</Authors>
+    <Description>Provide Semantic versioning using Version Control System history</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Copyright>Copyright © vCipher 2017</Copyright>
+    <PackageProjectUrl>https://github.com/vCipher/VCSVersion</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vCipher/VCSVersion</RepositoryUrl>
+    <PackageTags>cake vcs semver</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\VCSVersion.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\VCSVersion.xml</DocumentationFile>
-  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="4.2.2" />
   </ItemGroup>
+
 </Project>
