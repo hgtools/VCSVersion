@@ -9,7 +9,7 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
     /// <summary>
     /// Version is extracted from older commits's merge messages.
     /// <see cref="BaseVersion.Source"/> is the commit where the message was found.
-    /// Increments if <see cref="BranchConfig.PreventIncrementForMergedBranchVersion"/> is false.
+    /// Increments if <see cref="BranchConfig.PreventIncrementOfMergedBranchVersion"/> is false.
     /// </summary>
     public sealed class MergeMessageBaseVersionStrategy : IBaseVersionStrategy
     {

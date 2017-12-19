@@ -1,4 +1,6 @@
-﻿namespace VCSVersion.VersionCalculation.IncrementStrategies
+﻿using VCSVersion.Configuration;
+
+namespace VCSVersion.VersionCalculation.IncrementStrategies
 {
     public enum IncrementStrategyType
     {
