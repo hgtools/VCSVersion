@@ -25,8 +25,7 @@ namespace VCSVersionTests.Configuration
                 Assert.That(config.Ignore, Is.Not.Null);
                 Assert.That(config.Ignore.Hashes, Is.Not.Empty);
                 Assert.That(config.Ignore.Hashes, Is.EqualTo(new[] { "b6c0c9fda88830ebcd563e500a5a7da5a1658e98" }));
-                // TODO: revert after fixing https://github.com/aaubry/YamlDotNet/issues/293
-                Assert.That(config.Ignore.Before, Is.EqualTo(DateTime.Parse("2015-10-23T12:23:15")));
+                Assert.That(config.Ignore.Before, Is.EqualTo(DateTimeOffset.Parse("2015-10-23T12:23:15")));
             }
         }
 

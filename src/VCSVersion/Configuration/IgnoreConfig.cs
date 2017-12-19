@@ -16,7 +16,7 @@ namespace VCSVersion.Configuration
 
         // TODO: revert after fixing https://github.com/aaubry/YamlDotNet/issues/293
         [YamlMember(Alias = "commits-before")]
-        public DateTime? Before { get; set; }
+        public DateTimeOffset? Before { get; set; }
 
         [YamlMember(Alias = "sha")]
         public IEnumerable<string> Hashes { get; set; }
