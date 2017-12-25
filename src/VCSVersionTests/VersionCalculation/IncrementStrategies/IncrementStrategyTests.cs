@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VersionCalculation;
+using VCSVersion.VersionCalculation.IncrementStrategies;
 
 namespace VCSVersionTests.VersionCalculation.IncrementStrategies
 {

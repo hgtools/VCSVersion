@@ -6,6 +6,7 @@ using System;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VCS;
 using VCSVersion.VersionCalculation.BaseVersionCalculation;
+using VCSVersion.VersionCalculation.VersionFilters;
 
 namespace VCSVersionTests.VersionCalculation.VersionFilters
 {
