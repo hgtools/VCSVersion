@@ -63,12 +63,12 @@ namespace VCSVersion.VersionCalculation
                 patch: taggedVersion.Patch,
                 preReleaseTag: taggedVersion.PreReleaseTag,
                 buildMetadata: new BuildMetadata(
-                    commitsSinceTag: commitsSinceVersionSource,
+                    commitsSinceTag: null,
                     branch: buildMetadata.Branch,
                     commitHash: buildMetadata.Hash,
                     commitDate: buildMetadata.CommitDate,
+                    commitsSinceVersionSource: commitsSinceVersionSource,
                     otherMetadata: buildMetadata.OtherMetadata));
-
         }
 
         private SemanticVersion CalculateNonTaggedCommitVersion(IVersionContext context)

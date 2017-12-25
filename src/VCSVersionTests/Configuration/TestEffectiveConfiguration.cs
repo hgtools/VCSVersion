@@ -7,7 +7,6 @@ using VCSVersion.AssemblyVersioning;
 using VCSVersion.Configuration;
 using VCSVersion.VersionCalculation;
 using VCSVersion.VersionCalculation.IncrementStrategies;
-using VCSVersion.VersionFilters;
 
 namespace VCSVersionTests.Configuration
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace VCSVersion.Exceptions
+namespace VCSVersion.VersionCalculation.BaseVersionCalculation
 {
     [Serializable]
     public class BaseVerisonException : Exception

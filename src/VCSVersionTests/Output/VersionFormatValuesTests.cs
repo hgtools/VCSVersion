@@ -10,12 +10,12 @@ using VCSVersion.Output;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VersionCalculation;
 using VCSVersion.VersionCalculation.IncrementStrategies;
-using VCSVersion.VersionFilters;
+using VCSVersionTests.Configuration;
 
 namespace VCSVersionTests.Output
 {
     [TestFixture, Parallelizable(ParallelScope.All)]
-    public class VersionVariablesBuilderTests
+    public class VersionFormatValuesTests
     {
         [Test]
         [TestCase("yyyy-MM-dd", "2017-10-06")]
@@ -39,11 +39,10 @@ namespace VCSVersionTests.Output
                     CommitMessageIncrementMode.Enabled, 4, 4, 
                     Enumerable.Empty<IVersionFilter>(), false, true, format);
 
-            var builder = new VersionVariablesBuilder(
-                new SemanticVersion(1, 0, 0, null, buildMetadata),
-                config);
+            var version = new SemanticVersion(1, 0, 0, null, buildMetadata);
+            var values = new VersionFormatValues(version, config);
 
-            Assert.That(builder.CommitDate, Is.EqualTo(expectedOutcome));
+            Assert.That(values.CommitDate, Is.EqualTo(expectedOutcome));
         }
     }
 }

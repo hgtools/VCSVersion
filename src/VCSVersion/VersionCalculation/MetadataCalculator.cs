@@ -1,4 +1,5 @@
-﻿using VCSVersion.SemanticVersions;
+﻿using System.Linq;
+using VCSVersion.SemanticVersions;
 using VCSVersion.VCS;
 
 namespace VCSVersion.VersionCalculation
@@ -7,20 +8,21 @@ namespace VCSVersion.VersionCalculation
     {
         public BuildMetadata CalculateMetadata(IVersionContext context, ICommit baseVersionSource)
         {
-//            var qf = new CommitFilter
-//            {
-//                IncludeReachableFrom = context.CurrentCommit,
-//                ExcludeReachableFrom = baseVersionSource,
-//                SortBy = CommitSortStrategies.Topological | CommitSortStrategies.Time
-//            };
-//
-//            var commitLog = context.Repository.Commits.QueryBy(qf);
-//            var commitsSinceTag = commitLog.Count();
-
             var repository = context.Repository;
-            
+            var commits = repository
+                .Log(select => select.Range(
+                    baseVersionSource.Hash, 
+                    context.CurrentCommit.Hash));
+
+            var count = commits.Count();
+            var commitsSinceTag = count - 1;
+         
+            Logger.WriteInfo(
+                $"{count} commits found between " +
+                $"{baseVersionSource.Hash} and {context.CurrentCommit.Hash}");
+
             return new BuildMetadata(
-                1, // TODO: implement commitsSinceTag
+                commitsSinceTag,
                 context.CurrentBranch.Name,
                 repository.Tip().Hash,
                 repository.Tip().When);

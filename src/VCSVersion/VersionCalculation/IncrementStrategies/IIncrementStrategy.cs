@@ -1,6 +1,6 @@
 ﻿using VCSVersion.SemanticVersions;
 
-namespace VCSVersion.VersionCalculation
+namespace VCSVersion.VersionCalculation.IncrementStrategies
 {
     public interface IIncrementStrategy
     {

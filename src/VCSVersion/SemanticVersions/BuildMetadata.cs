@@ -42,6 +42,19 @@ namespace VCSVersion.SemanticVersions
             OtherMetadata = otherMetadata;
             CommitsSinceVersionSource = commitsSinceTag ?? 0;
         }
+        
+        /// <summary>
+        /// Create an instance of <see cref="BuildMetadata"/>
+        /// </summary>
+        public BuildMetadata(int? commitsSinceTag, string branch, string commitHash, DateTimeOffset commitDate, int commitsSinceVersionSource, string otherMetadata = null)
+        {
+            Hash = commitHash;
+            CommitsSinceTag = commitsSinceTag;
+            Branch = branch;
+            CommitDate = commitDate;
+            OtherMetadata = otherMetadata;
+            CommitsSinceVersionSource = commitsSinceVersionSource;
+        }
 
         /// <summary>
         /// Create a copy of <see cref="BuildMetadata"/>

@@ -1,14 +1,18 @@
-﻿using System.Globalization;
+﻿using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using VCSVersion.AssemblyVersioning;
 using VCSVersion.Configuration;
 using VCSVersion.SemanticVersions;
+using VCSVersion.VersionCalculation;
 
 namespace VCSVersion.Output
 {
-    public sealed class VersionVariablesBuilder
+    public sealed class VersionFormatValues
     {
-        private SemanticVersion _version;
-        private EffectiveConfiguration _config;
+        private readonly SemanticVersion _version;
+        private readonly EffectiveConfiguration _config;
         
         public string Major => _version.Major.ToString();
         public string Minor => _version.Minor.ToString();
@@ -28,20 +32,20 @@ namespace VCSVersion.Output
 
         public string CommitDate => 
             _version.BuildMetadata
-            .CommitDate
-            .UtcDateTime
-            .ToString(_config.CommitDateFormat, CultureInfo.InvariantCulture);
+                .CommitDate
+                .UtcDateTime
+                .ToString(_config.CommitDateFormat, CultureInfo.InvariantCulture);
 
         public string CommitsSinceVersionSource => 
             _version.BuildMetadata
-            .CommitsSinceVersionSource
-            .ToString(CultureInfo.InvariantCulture);
+                .CommitsSinceVersionSource
+                .ToString(CultureInfo.InvariantCulture);
 
         public string CommitsSinceVersionSourcePadded => 
             _version.BuildMetadata
-            .CommitsSinceVersionSource
-            .ToString(CultureInfo.InvariantCulture)
-            .PadLeft(_config.CommitsSinceVersionSourcePadding, '0');
+                .CommitsSinceVersionSource
+                .ToString(CultureInfo.InvariantCulture)
+                .PadLeft(_config.CommitsSinceVersionSourcePadding, '0');
 
         public string AssemblySemVer => _version.GetAssemblyVersion(_config.AssemblyVersioningScheme);
         public string AssemblyFileSemVer => _version.GetAssemblyFileVersion(_config.AssemblyFileVersioningScheme);
@@ -49,44 +53,32 @@ namespace VCSVersion.Output
         public string MajorMinorPatch => $"{_version.Major}.{_version.Minor}.{_version.Patch}";
         public string SemVer => _version.ToString();
         public string FullSemVer => _version.ToString("f");
-        public string DefaultInformationalVersion => _version.ToString("i");
+        public string InformationalVersion => GetInformationalVersion();
         
         public string NuGetVersion => _version.ToString("t");
         public string NuGetPreReleaseTag => _version.PreReleaseTag.IsNull() ? null : _version.PreReleaseTag.ToString("t").ToLower();
         
-        public VersionVariablesBuilder(SemanticVersion version, EffectiveConfiguration config)
+        public VersionFormatValues(SemanticVersion version, EffectiveConfiguration config, bool isCurrentCommitTagged = false)
         {
-            _version = version;
+            _version = version.FormatVersion(config, isCurrentCommitTagged);
             _config = config;
         }
-
-        public VersionVariables Build()
+        
+        private string GetInformationalVersion()
         {
-            return new VersionVariables
+            if (string.IsNullOrEmpty(_config.AssemblyInformationalFormat))
+                return _version.ToString("i");
+            
+            try
             {
-                Major = Major,
-                Minor = Minor,
-                Patch = Patch,
-                BuildMetadata = BuildMetadata,
-                BuildMetadataPadded = BuildMetadataPadded,
-                FullBuildMetadata = FullBuildMetadata,
-                BranchName = BranchName,
-                Sha = Sha,
-                MajorMinorPatch = MajorMinorPatch,
-                SemVer = SemVer,
-                FullSemVer = FullSemVer,
-                AssemblySemVer = AssemblySemVer,
-                AssemblyFileSemVer = AssemblyFileSemVer,
-                PreReleaseTag = PreReleaseTag,
-                PreReleaseTagWithDash = PreReleaseTagWithDash,
-                PreReleaseLabel = PreReleaseLabel,
-                PreReleaseNumber = PreReleaseNumber,
-                InformationalVersion = DefaultInformationalVersion,
-                CommitDate = CommitDate,
-                NuGetVersion = NuGetVersion,
-                NuGetPreReleaseTag = NuGetPreReleaseTag,
-                CommitsSinceVersionSource = CommitsSinceVersionSource
-            };
+                return _config.AssemblyInformationalFormat.FormatWith(this);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new WarningException(
+                    $"Unable to format AssemblyInformationalVersion. " +
+                    $"Check your format string: {ex.Message}");
+            }
         }
     }
 }

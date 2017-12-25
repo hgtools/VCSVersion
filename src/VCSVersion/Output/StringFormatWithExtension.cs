@@ -1,0 +1,79 @@
+﻿using System;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Text.RegularExpressions;
+
+namespace VCSVersion.Output
+{
+    internal static class StringFormatWithExtension
+    {
+        private static readonly Regex TokensRegex = new Regex(@"{\w+}", RegexOptions.Compiled);
+
+        /// <summary>
+        ///     Formats a string template with the given source object.
+        ///     Expression like {Id} are replaced with the corresponding
+        ///     property value in the <paramref name="source" />. 
+        ///     Supports property access expressions.
+        /// </summary>       
+        /// <param name="template" this="true">The template to be replaced with values from the source object. The template can contain expressions wrapped in curly braces, that point to properties or fields on the source object to be used as a substitute, e.g '{Foo.Bar.CurrencySymbol} foo {Foo.Bar.Price}'.</param>
+        /// <param name="source">The source object to apply to format</param>
+        public static string FormatWith<T>(this string template, T source)
+        {
+            if (template == null)
+                throw new ArgumentNullException(nameof(template));
+
+            // {MajorMinorPatch}+{Branch}
+            var objType = source.GetType();
+            foreach (Match match in TokensRegex.Matches(template))
+            {
+                var memberAccessExpression = TrimBraces(match.Value);
+                var expression = CompileDataBinder(objType, memberAccessExpression);
+                var propertyValue = expression(source);
+                
+                template = template.Replace(match.Value, propertyValue);
+            }
+
+            return template;
+        }
+
+        private static string TrimBraces(string originalExpression)
+        {
+            if (!string.IsNullOrWhiteSpace(originalExpression))
+            {
+                return originalExpression.TrimStart('{').TrimEnd('}');
+            }
+            return originalExpression;
+        }
+
+        private static Func<object, string> CompileDataBinder(Type type, string expr)
+        {
+            var param = Expression.Parameter(typeof(object));
+            var body = (Expression)Expression.Convert(param, type);
+            var members = expr.Split('.');
+            
+            foreach (var member in members)
+            {
+                body = Expression.PropertyOrField(body, member);
+            }
+            
+            var method = typeof(Convert)
+                .GetMethod("ToString", BindingFlags.Static | BindingFlags.Public,
+                null, new Type[] { body.Type }, null);
+            
+            if (method == null)
+            {
+                method = typeof(Convert)
+                    .GetMethod("ToString", BindingFlags.Static | BindingFlags.Public,
+                    null, new Type[] { typeof(object) }, null);
+                body = Expression.Call(method, Expression.Convert(body, typeof(object)));
+            }
+            else
+            {
+                body = Expression.Call(method, body);
+            }
+
+            return Expression.Lambda<Func<object, string>>(body, param).Compile();
+        }
+
+    }
+}

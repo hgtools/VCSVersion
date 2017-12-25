@@ -2,7 +2,7 @@
 using VCSVersion.AssemblyVersioning;
 using VCSVersion.VersionCalculation;
 using VCSVersion.VersionCalculation.IncrementStrategies;
-using VCSVersion.VersionFilters;
+using VCSVersion.VersionCalculation.VersionFilters;
 
 namespace VCSVersion.Configuration
 {

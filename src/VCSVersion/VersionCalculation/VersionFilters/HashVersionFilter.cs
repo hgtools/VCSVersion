@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VCSVersion.VersionCalculation.BaseVersionCalculation;
 
-namespace VCSVersion.VersionFilters
+namespace VCSVersion.VersionCalculation.VersionFilters
 {
     public sealed class HashVersionFilter : IVersionFilter
     {

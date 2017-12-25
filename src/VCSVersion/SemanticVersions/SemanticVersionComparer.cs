@@ -6,18 +6,18 @@ namespace VCSVersion.SemanticVersions
     /// <summary>
     /// <see cref="SemanticVersion"/> comparer
     /// </summary>
-    public sealed class SemanticVersionComarer : IEqualityComparer<SemanticVersion>
+    public sealed class SemanticVersionComparer : IEqualityComparer<SemanticVersion>
     {
-        public static readonly SemanticVersionComarer Default = 
-            new SemanticVersionComarer(SemanticVersionComparation.Full);
+        public static readonly SemanticVersionComparer Default = 
+            new SemanticVersionComparer(SemanticVersionComparation.Full);
 
         private readonly SemanticVersionComparation _comparation;
 
         /// <summary>
-        /// Creates an instance of <see cref="SemanticVersionComarer"/>
+        /// Creates an instance of <see cref="SemanticVersionComparer"/>
         /// </summary>
         /// <param name="comparation"><see cref="SemanticVersion"/> comparation mode</param>
-        public SemanticVersionComarer(SemanticVersionComparation comparation)
+        public SemanticVersionComparer(SemanticVersionComparation comparation)
         {
             _comparation = comparation;
         }

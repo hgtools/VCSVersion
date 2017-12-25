@@ -1,6 +1,6 @@
 ﻿using VCSVersion.VersionCalculation.BaseVersionCalculation;
 
-namespace VCSVersion.VersionFilters
+namespace VCSVersion.VersionCalculation.VersionFilters
 {
     public interface IVersionFilter
     {

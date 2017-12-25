@@ -1,7 +1,7 @@
 ﻿using System;
 using VCSVersion.VersionCalculation.BaseVersionCalculation;
 
-namespace VCSVersion.VersionFilters
+namespace VCSVersion.VersionCalculation.VersionFilters
 {
     public sealed class MinDateVersionFilter : IVersionFilter
     {

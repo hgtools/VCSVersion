@@ -28,5 +28,13 @@ namespace VCSVersion.VCS
         /// </summary>
         /// <param name="hash">The commit hash to end with.</param>
         ILogQuery AncestorsOf(string hash);
+
+        /// <summary>
+        /// Create a <see cref="ILogQuery" /> that includes a range
+        /// of commits between <paramref name="fromHash"/> and <paramref name="toHash"/>.
+        /// </summary>
+        /// <param name="fromHash">Hash of first commit to include.</param>
+        /// <param name="toHash">Hash of last commit to include.</param>
+        ILogQuery Range(string fromHash, string toHash);
     }
 }

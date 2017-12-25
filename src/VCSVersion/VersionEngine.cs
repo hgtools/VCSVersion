@@ -20,10 +20,9 @@ namespace VCSVersion
             //var buildServer = applicableBuildServers.FirstOrDefault();
 
             var versionFinder = new VersionFinder();
-            var semVersion = versionFinder.FindVersion(_context);
+            var version = versionFinder.FindVersion(_context);
 
-            var variablesBuilder = new VersionVariablesBuilder(semVersion, _context.Configuration);
-            return variablesBuilder.Build();
+            return version.ToVersionVariables(_context.Configuration);
         }
     }
 }

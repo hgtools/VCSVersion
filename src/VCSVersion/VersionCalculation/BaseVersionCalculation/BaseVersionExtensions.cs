@@ -1,4 +1,5 @@
 ﻿using VCSVersion.SemanticVersions;
+using VCSVersion.VersionCalculation.IncrementStrategies;
 
 namespace VCSVersion.VersionCalculation.BaseVersionCalculation
 {

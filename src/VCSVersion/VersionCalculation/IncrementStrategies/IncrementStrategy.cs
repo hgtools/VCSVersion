@@ -1,7 +1,7 @@
 ﻿using System;
 using VCSVersion.SemanticVersions;
 
-namespace VCSVersion.VersionCalculation
+namespace VCSVersion.VersionCalculation.IncrementStrategies
 {
     public sealed class IncrementStrategy : IIncrementStrategy
     {

@@ -46,7 +46,7 @@ namespace VCSVersion
         IRepositoryMetadataProvider RepositoryMetadataProvider { get; }
 
         /// <summary>
-        /// Checks if the current is tagged.
+        /// Checks if the current commit is tagged.
         /// </summary>
         bool IsCurrentCommitTagged { get; }
 

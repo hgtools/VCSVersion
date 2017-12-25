@@ -1,9 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="3.51.0" />
     <PackageReference Include="AutoFixture.AutoMoq" Version="3.51.0" />
@@ -13,9 +11,7 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
     <PackageReference Include="Shouldly" Version="2.8.3" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\VCSVersion\VCSVersion.csproj" />
   </ItemGroup>
-
 </Project>

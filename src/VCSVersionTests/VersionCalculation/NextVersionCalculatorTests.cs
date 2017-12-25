@@ -6,6 +6,7 @@ using VCSVersion.SemanticVersions;
 using VCSVersion.VCS;
 using VCSVersion.VersionCalculation;
 using VCSVersion.VersionCalculation.BaseVersionCalculation;
+using VCSVersionTests.Configuration;
 
 namespace VCSVersionTests.VersionCalculation
 {
@@ -37,6 +38,7 @@ namespace VCSVersionTests.VersionCalculation
 
             var contextMock = new Mock<IVersionContext>();
             var context = contextMock.Object;
+            contextMock.Setup(c => c.Configuration).Returns(new TestEffectiveConfiguration());
             contextMock.Setup(c => c.IsCurrentCommitTagged).Returns(false);
 
             var versionCalculator = new NextVersionCalculator(

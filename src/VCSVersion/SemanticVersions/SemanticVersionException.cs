@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace VCSVersion.Exceptions
+namespace VCSVersion.SemanticVersions
 {
     [Serializable]
     public class SemanticVersionExceptionException : Exception

@@ -9,7 +9,7 @@ namespace VCSVersion.VersionCalculation
     {
         public PreReleaseTag CalculateTag(IVersionContext context, SemanticVersion semVersion, string branchNameOverride)
         {
-            var comparer = new SemanticVersionComarer(SemanticVersionComparation.MajorMinorPatch);
+            var comparer = new SemanticVersionComparer(SemanticVersionComparation.MajorMinorPatch);
             var tagToUse = GetBranchSpecificTag(context.Configuration, context.CurrentBranch.Name, branchNameOverride);
 
             var lastTag = context.RepositoryMetadataProvider

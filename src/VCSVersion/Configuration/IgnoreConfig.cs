@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VCSVersion.VersionFilters;
+using VCSVersion.VersionCalculation.VersionFilters;
 using YamlDotNet.Serialization;
 
 namespace VCSVersion.Configuration

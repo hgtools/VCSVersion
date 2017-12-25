@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <AssemblyName>VCSVersion</AssemblyName>
@@ -13,9 +12,7 @@
     <PackageTags>cake vcs semver</PackageTags>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="4.2.3" />
   </ItemGroup>
-
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using VCSVersion.Exceptions;
 
 namespace VCSVersion.SemanticVersions
 {
@@ -306,7 +305,7 @@ namespace VCSVersion.SemanticVersions
         /// <inheritdoc />
         public bool Equals(SemanticVersion other)
         {
-            return SemanticVersionComarer
+            return SemanticVersionComparer
                 .Default
                 .Equals(this, other);
         }
@@ -323,7 +322,7 @@ namespace VCSVersion.SemanticVersions
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return SemanticVersionComarer
+            return SemanticVersionComparer
                 .Default
                 .GetHashCode(this);
         }

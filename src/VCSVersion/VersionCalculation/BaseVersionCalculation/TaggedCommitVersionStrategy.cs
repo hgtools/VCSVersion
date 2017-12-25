@@ -26,19 +26,19 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
 
             var tagsOnBranch = currentBranch
                 .Commits(context)
-                .SelectMany(commit => allTags.Where(t => IsValidTag(t, commit)))
-                .Select(t =>
+                .SelectMany(commit => allTags.Where(tag => IsValidTag(tag, commit)))
+                .Select(tag =>
                 {
-                    if (SemanticVersion.TryParse(t.Name, context.Configuration.TagPrefix, out SemanticVersion version))
-                    {
-                        var commit = t.Commit;
-                        if (commit != null)
-                            return new VersionTaggedCommit(commit, version, t.Name);
-                    }
+                    if (!SemanticVersion.TryParse(tag.Name, context.Configuration.TagPrefix, out var version))
+                        return null;
+                    
+                    var commit = tag.Commit;
+                    if (commit == null)
+                        return null;
 
-                    return null;
+                    return new VersionTaggedCommit(commit, version, tag.Name);
                 })
-                .Where(a => a != null)
+                .Where(commit => commit != null)
                 .ToList();
 
             return tagsOnBranch.Select(t => CreateBaseVersion(context, t));
@@ -52,12 +52,12 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
 
         private static string FormatType(VersionTaggedCommit version)
         {
-            return string.Format("Git tag '{0}'", version.Tag);
+            return $"Hg tag '{version.Tag}'";
         }
 
         private static bool IsValidTag(ITag tag, ICommit commit)
         {
-            return tag.Commit == commit;
+            return tag.Commit.Equals(commit);
         }
 
         private sealed class VersionTaggedCommit
