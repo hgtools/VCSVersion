@@ -10,6 +10,7 @@ using VCSVersion.Output;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VersionCalculation;
 using VCSVersion.VersionCalculation.IncrementStrategies;
+using VCSVersion.VersionCalculation.VersionFilters;
 using VCSVersionTests.Configuration;
 
 namespace VCSVersionTests.Output
