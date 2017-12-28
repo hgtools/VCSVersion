@@ -7,7 +7,7 @@ using VCSVersion.VCS;
 namespace VCSVersion.VersionCalculation.BaseVersionCalculation
 {
     /// <summary>
-    /// Version is extracted from all tags on the branch which are valid, and not newer than the current commit.
+    /// Version is extracted from all tags on the ancestors of current commit, and not newer than the current commit.
     /// <see cref="BaseVersion.Source"/> is the tag's commit.
     /// Increments if the tag is not the current commit.
     /// </summary>
@@ -15,17 +15,18 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
     {
         public IEnumerable<BaseVersion> GetVersions(IVersionContext context)
         {
-            return GetTaggedVersions(context, context.CurrentBranch, context.CurrentCommit.When);
+            return GetTaggedVersions(context, context.CurrentCommit);
         }
 
-        public IEnumerable<BaseVersion> GetTaggedVersions(IVersionContext context, IBranchHead currentBranch, DateTimeOffset? olderThan)
+        private static IEnumerable<BaseVersion> GetTaggedVersions(IVersionContext context, ICommit currentCommit)
         {
-            var allTags = context.Repository.Tags()
-                .Where(tag => !olderThan.HasValue || tag.Commit.When <= olderThan.Value)
+            var repository = context.Repository;
+            var allTags = repository.Tags()
+                .Where(tag => tag.Commit.When <= currentCommit.When)
                 .ToList();
 
-            var tagsOnBranch = currentBranch
-                .Commits(context)
+            var tagsOnBranch = repository
+                .Log(select => select.AncestorsOf(currentCommit.Hash))
                 .SelectMany(commit => allTags.Where(tag => IsValidTag(tag, commit)))
                 .Select(tag =>
                 {
@@ -62,9 +63,9 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
 
         private sealed class VersionTaggedCommit
         {
-            public string Tag;
-            public ICommit Commit;
-            public SemanticVersion SemVer;
+            public string Tag { get; }
+            public ICommit Commit { get; }
+            public SemanticVersion SemVer { get; }
 
             public VersionTaggedCommit(ICommit commit, SemanticVersion semVer, string tag)
             {
