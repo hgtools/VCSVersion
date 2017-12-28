@@ -8,7 +8,7 @@ namespace VCSVersion.VCS
     public interface ILogQueryBuilder
     {
         /// <summary>
-        /// Returns a <see cref="ILogQuery"/> that selects a commit based on its unique hash number.
+        /// Return a <see cref="ILogQuery"/> that selects a commit based on its unique hash number.
         /// </summary>
         /// <param name="hash">The commit unique hash.</param>
         /// <exception cref="ArgumentNullException">
@@ -17,7 +17,7 @@ namespace VCSVersion.VCS
         ILogQuery Single(string hash);
 
         /// <summary>
-        /// Creates a <see cref="ILogQuery"/> that finds commits that belong to the named branch.
+        /// Create a <see cref="ILogQuery"/> that finds commits that belong to the named branch.
         /// </summary>
         /// <param name="name">Branch name.</param>
         ILogQuery ByBranch(string name);
