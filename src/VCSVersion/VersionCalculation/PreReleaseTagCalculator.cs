@@ -40,7 +40,9 @@ namespace VCSVersion.VersionCalculation
                 {
                     branchName = Regex.Replace(branchName, configuration.BranchPrefixToTrim, string.Empty, RegexOptions.IgnoreCase);
                 }
-                branchName = Regex.Replace(branchName, @"[^\w0-9-]", "-");
+                
+                //Replacing non-ASCII symbols according to SemVer2.0 specification (https://semver.org/spec/v2.0.0.html#spec-item-9)
+                branchName = Regex.Replace(branchName, "[^a-zA-Z0-9-]", "-");
 
                 tagToUse = tagToUse.Replace("{BranchName}", branchName);
             }
