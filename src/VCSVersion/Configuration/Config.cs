@@ -13,11 +13,12 @@ namespace VCSVersion.Configuration
 {
     public class Config
     {
-        Dictionary<string, BranchConfig> branches = new Dictionary<string, BranchConfig>();
-        string nextVersion;
+        private Dictionary<string, BranchConfig> _branches;
+        private string _nextVersion;
 
         public Config()
         {
+            _branches = new Dictionary<string, BranchConfig>();
             Ignore = new IgnoreConfig();
         }
 
@@ -42,12 +43,11 @@ namespace VCSVersion.Configuration
         [YamlMember(Alias = "next-version")]
         public string NextVersion
         {
-            get { return nextVersion; }
+            get { return _nextVersion; }
             set
             {
-                int major;
-                nextVersion = int.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out major)
-                    ? string.Format("{0}.0", major)
+                _nextVersion = int.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var major)
+                    ? $"{major}.0"
                     : value;
             }
         }
@@ -78,27 +78,44 @@ namespace VCSVersion.Configuration
         {
             get
             {
-                return branches;
+                return _branches;
             }
             set
             {
                 value.ToList().ForEach(_ =>
                 {
-                    if (!branches.ContainsKey(_.Key))
-                        branches.Add(_.Key, new BranchConfig { Name = _.Key });
+                    if (!_branches.ContainsKey(_.Key))
+                        _branches.Add(_.Key, new BranchConfig { Name = _.Key });
 
-                    branches[_.Key] = MergeObjects(branches[_.Key], _.Value);
+                    _branches[_.Key] = MergeObjects(_branches[_.Key], _.Value);
                 });
             }
         }
 
+        [YamlMember(Alias = "ignore")]
+        public IgnoreConfig Ignore { get; set; }
+
+        [YamlMember(Alias = "increment")]
+        public IncrementStrategyType? Increment { get; set; }
+
+        [YamlMember(Alias = "commit-date-format")]
+        public string CommitDateFormat { get; set; }
+        
+        [YamlMember(Alias = "base-version-strategies")]
+        public string[] BaseVersionStrategies { get; set; }
+        
+        [YamlMember(Alias = "tagged-commits-limit")]
+        public int? TaggedCommitsLimit { get; set; }
+        
+        
         public BranchConfig GetConfigForBranch(string branchName)
         {
             if (branchName == null)
                 throw new ArgumentNullException(nameof(branchName));
 
             var matches = Branches
-                .Where(b => Regex.IsMatch(branchName, "^" + b.Value.Regex, RegexOptions.IgnoreCase));
+                .Where(b => Regex.IsMatch(branchName, "^" + b.Value.Regex, RegexOptions.IgnoreCase))
+                .ToList();
 
             try
             {
@@ -121,7 +138,7 @@ namespace VCSVersion.Configuration
             }
         }
 
-        T MergeObjects<T>(T target, T source)
+        private static T MergeObjects<T>(T target, T source)
         {
             typeof(T).GetProperties()
                 .Where(prop => prop.CanRead && prop.CanWrite)
@@ -129,16 +146,8 @@ namespace VCSVersion.Configuration
                 .Where(_ => _.value != null)
                 .ToList()
                 .ForEach(_ => _.prop.SetValue(target, _.value, null));
+            
             return target;
         }
-
-        [YamlMember(Alias = "ignore")]
-        public IgnoreConfig Ignore { get; set; }
-
-        [YamlMember(Alias = "increment")]
-        public IncrementStrategyType? Increment { get; set; }
-
-        [YamlMember(Alias = "commit-date-format")]
-        public string CommitDateFormat { get; set; }
     }
 }

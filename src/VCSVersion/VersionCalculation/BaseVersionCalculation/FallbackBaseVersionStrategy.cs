@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VCSVersion.Configuration;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VCS;
 
@@ -11,6 +12,7 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
     /// <see cref="BaseVersion.Source"/> is the "root" commit reachable from the current commit.
     /// Does not increment.
     /// </summary>
+    [ConfigAlias("fallback-version")]
     public sealed class FallbackBaseVersionStrategy : IBaseVersionStrategy
     {
         public IEnumerable<BaseVersion> GetVersions(IVersionContext context)
@@ -31,7 +33,7 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
                 return repository
                     .Log(select => select
                         .AncestorsOf(tip.Hash)
-                        .Limit(1))
+                        .First())
                     .Single();
             }
             catch (InvalidOperationException exception)

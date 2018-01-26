@@ -41,6 +41,6 @@ namespace VCSVersion.VCS
         /// <summary>
         /// Gets the collection of tags for this <see cref="ICommit"/>, or an empty collection if this commit has no tags.
         /// </summary>
-        IEnumerable<string> Tags { get; }
+        IEnumerable<ITag> Tags { get; }
     }
 }

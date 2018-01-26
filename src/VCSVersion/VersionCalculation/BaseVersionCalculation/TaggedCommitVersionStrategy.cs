@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using VCSVersion.Configuration;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VCS;
 
@@ -11,6 +11,7 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
     /// <see cref="BaseVersion.Source"/> is the tag's commit.
     /// Increments if the tag is not the current commit.
     /// </summary>
+    [ConfigAlias("tagged-commit-version")] 
     public sealed class TaggedCommitVersionStrategy : IBaseVersionStrategy
     {
         public IEnumerable<BaseVersion> GetVersions(IVersionContext context)
@@ -20,17 +21,21 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
 
         private static IEnumerable<BaseVersion> GetTaggedVersions(IVersionContext context, ICommit currentCommit)
         {
-            var repository = context.Repository;
-            var allTags = repository.Tags()
-                .Where(tag => tag.Commit.When <= currentCommit.When)
-                .ToList();
-
-            var tagsOnBranch = repository
-                .Log(select => select.AncestorsOf(currentCommit.Hash))
-                .SelectMany(commit => allTags.Where(tag => IsValidTag(tag, commit)))
+            var tagPrefixRegex = context.Configuration.TagPrefix;
+            var taggedCommitsLimit = context.Configuration.TaggedCommitsLimit;
+            
+            return context.Repository
+                .Log(select => 
+                    select.Intersect(
+                        select.TaggedWithVersion(tagPrefixRegex),
+                        select.AncestorsOf(currentCommit.Hash)
+                    )
+                    .Last(taggedCommitsLimit)
+                )
+                .SelectMany(commit => commit.Tags)
                 .Select(tag =>
                 {
-                    if (!SemanticVersion.TryParse(tag.Name, context.Configuration.TagPrefix, out var version))
+                    if (!SemanticVersion.TryParse(tag.Name, tagPrefixRegex, out var version))
                         return null;
                     
                     var commit = tag.Commit;
@@ -40,9 +45,7 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
                     return new VersionTaggedCommit(commit, version, tag.Name);
                 })
                 .Where(commit => commit != null)
-                .ToList();
-
-            return tagsOnBranch.Select(t => CreateBaseVersion(context, t));
+                .Select(t => CreateBaseVersion(context, t));
         }
 
         private static BaseVersion CreateBaseVersion(IVersionContext context, VersionTaggedCommit version)
@@ -54,11 +57,6 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
         private static string FormatType(VersionTaggedCommit version)
         {
             return $"Hg tag '{version.Tag}'";
-        }
-
-        private static bool IsValidTag(ITag tag, ICommit commit)
-        {
-            return tag.Commit.Equals(commit);
         }
 
         private sealed class VersionTaggedCommit

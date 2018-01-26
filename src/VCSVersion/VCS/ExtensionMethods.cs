@@ -28,5 +28,11 @@ namespace VCSVersion.VCS
         /// </summary>
         public static IEnumerable<ICommit> Commits(this IBranchHead branch, IVersionContext context) =>
             context.Repository.Log(select => select.ByBranch(branch.Name));
+
+        /// <summary>
+        /// todo: add summary
+        /// </summary>
+        public static ILogQuery TaggedWithVersion(this ILogQueryBuilder select, string tagPrefixRegex) =>
+            select.Tagged($@"^({tagPrefixRegex})?\w+\.\w+\.\w+");
     }
 }

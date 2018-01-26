@@ -31,7 +31,7 @@ namespace VCSVersionTests.VersionCalculation.BaseVersionCalculation
                 .ReturnsUsingFixture(_fixture);
             
             var repositoryMock = _fixture.Create<Mock<IRepository>>();
-            repositoryMock.Setup(r => r.Tip())
+            repositoryMock.Setup(r => r.CurrentCommit())
                 .Returns(tipMock.Object);
             repositoryMock.Setup(r => r.Log(It.IsAny<Func<ILogQueryBuilder, ILogQuery>>()))
                 .Returns(Enumerable.Repeat(tipMock.Object, 1));

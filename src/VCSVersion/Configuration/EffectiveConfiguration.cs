@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using VCSVersion.AssemblyVersioning;
 using VCSVersion.VersionCalculation;
+using VCSVersion.VersionCalculation.BaseVersionCalculation;
 using VCSVersion.VersionCalculation.IncrementStrategies;
 using VCSVersion.VersionCalculation.VersionFilters;
 
@@ -33,7 +34,9 @@ namespace VCSVersion.Configuration
             IEnumerable<IVersionFilter> versionFilters,
             bool tracksReleaseBranches,
             bool isCurrentBranchRelease,
-            string commitDateFormat)
+            string commitDateFormat,
+            IEnumerable<IBaseVersionStrategy> baseVersionStrategies,
+            int taggedCommitsLimit)
         {
             AssemblyVersioningScheme = assemblyVersioningScheme;
             AssemblyFileVersioningScheme = assemblyFileVersioningScheme;
@@ -59,6 +62,8 @@ namespace VCSVersion.Configuration
             TracksReleaseBranches = tracksReleaseBranches;
             IsCurrentBranchRelease = isCurrentBranchRelease;
             CommitDateFormat = commitDateFormat;
+            BaseVersionStrategies = baseVersionStrategies;
+            TaggedCommitsLimit = taggedCommitsLimit;
         }
 
         public bool TracksReleaseBranches { get; }
@@ -110,5 +115,9 @@ namespace VCSVersion.Configuration
         public IEnumerable<IVersionFilter> VersionFilters { get; }
 
         public string CommitDateFormat { get; }
+        
+        public IEnumerable<IBaseVersionStrategy> BaseVersionStrategies { get; }
+        
+        public int TaggedCommitsLimit { get; set; }
     }
 }

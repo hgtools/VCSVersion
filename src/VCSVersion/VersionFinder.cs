@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Linq;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VersionCalculation;
+using VCSVersion.VersionCalculation.BaseVersionCalculation;
 
 namespace VCSVersion
 {
@@ -21,7 +20,13 @@ namespace VCSVersion
                     + "version calcuation is for metadata only.");
             }
 
-            return new NextVersionCalculator().CalculateVersion(context);
+            var calculator = new NextVersionCalculator(
+                new BaseVersionCalculator(context
+                    .Configuration
+                    .BaseVersionStrategies
+                    .ToArray()));
+            
+            return calculator.CalculateVersion(context);
         }
     }
 }

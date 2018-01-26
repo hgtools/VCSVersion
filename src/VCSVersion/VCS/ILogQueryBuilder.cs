@@ -1,19 +1,14 @@
-﻿using System;
-
-namespace VCSVersion.VCS
+﻿namespace VCSVersion.VCS
 {
     /// <summary>
     /// Abstraction for a repository log query builder.
     /// </summary>
-    public interface ILogQueryBuilder
+    public interface ILogQueryBuilder 
     {
         /// <summary>
         /// Return a <see cref="ILogQuery"/> that selects a commit based on its unique hash number.
         /// </summary>
         /// <param name="hash">The commit unique hash.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <para><paramref name="hash"/> is <c>null</c> or empty.</para>
-        /// </exception>
         ILogQuery Single(string hash);
 
         /// <summary>
@@ -36,5 +31,25 @@ namespace VCSVersion.VCS
         /// <param name="fromHash">Hash of first commit to include.</param>
         /// <param name="toHash">Hash of last commit to include.</param>
         ILogQuery Range(string fromHash, string toHash);
+
+        /// <summary>
+        /// Create a <see cref="ILogQuery"/> that includes the commit
+        /// with tags by specific tag pattern.
+        /// </summary>
+        /// <param name="pattern">Tag pattern</param>
+        ILogQuery Tagged(string pattern);
+
+        /// <summary>
+        /// Create a <see cref="ILogQuery"/> that includes the commit with tags.
+        /// </summary>
+        ILogQuery Tagged();
+
+        /// <summary>
+        /// Create a <see cref="ILogQuery"/> that includes the commit
+        /// intersected with <paramref name="left"/> query and <paramref name="right"/> query.
+        /// </summary>
+        /// <param name="left">Left part of intersection</param>
+        /// <param name="right">Right part of intersection</param>
+        ILogQuery Intersect(ILogQuery left, ILogQuery right);
     }
 }

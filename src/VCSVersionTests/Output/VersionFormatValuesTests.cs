@@ -38,7 +38,7 @@ namespace VCSVersionTests.Output
                     IncrementStrategyType.Inherit,
                     "", true, "", "", false, "", "", "", "", 
                     CommitMessageIncrementMode.Enabled, 4, 4, 
-                    Enumerable.Empty<IVersionFilter>(), false, true, format);
+                    Enumerable.Empty<IVersionFilter>(), false, true, format, null, 10);
 
             var version = new SemanticVersion(1, 0, 0, null, buildMetadata);
             var values = new VersionFormatValues(version, config);

@@ -11,6 +11,7 @@ namespace VCSVersion.VersionCalculation.BaseVersionCalculation
     /// <see cref="BaseVersion.Source"/> is the commit where the message was found.
     /// Increments if <see cref="BranchConfig.PreventIncrementOfMergedBranchVersion"/> is false.
     /// </summary>
+    [ConfigAlias("merge-message-version")]
     public sealed class MergeMessageBaseVersionStrategy : IBaseVersionStrategy
     {
         public IEnumerable<BaseVersion> GetVersions(IVersionContext context)
