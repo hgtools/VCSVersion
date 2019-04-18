@@ -1,8 +1,8 @@
 ﻿using Moq;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
 using System;
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VCS;
 using VCSVersion.VersionCalculation.BaseVersionCalculation;
