@@ -1,4 +1,4 @@
-#load nuget:?package=Cake.Recipe&version=1.0.0
+#load nuget:?package=Cake.Recipe&version=1.1.0
 
 Environment.SetVariableNames();
 
@@ -10,6 +10,10 @@ BuildParameters.SetParameters(
     repositoryOwner: "hgtools",
     repositoryName: "VCSVersion",
     appVeyorAccountName: "hgtools",
+    shouldPostToGitter: false,
+    shouldPostToSlack: false,
+    shouldPostToTwitter: false,
+    shouldPostToMicrosoftTeams: false,
     shouldRunCodecov: false,
     shouldRunDotNetCorePack: true,
     shouldRunGitVersion: true,
