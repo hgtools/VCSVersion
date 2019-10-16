@@ -1,6 +1,5 @@
 ﻿using Moq;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
 using VCSVersion;
 using VCSVersion.SemanticVersions;
 using VCSVersion.VCS;
@@ -27,7 +26,7 @@ namespace VCSVersionTests.VersionCalculation
                     It.IsAny<IVersionContext>(),
                     It.IsAny<ICommit>()))
                 .Returns((BuildMetadata) null);
-            
+
             var tagCalculatorMock = new Mock<IPreReleaseTagCalculator>();
             var tagCalculator = tagCalculatorMock.Object;
             tagCalculatorMock.Setup(t => t.CalculateTag(
@@ -45,10 +44,10 @@ namespace VCSVersionTests.VersionCalculation
                 baseCalculator,
                 metadataCalculator,
                 tagCalculator);
-            
+
             var version = versionCalculator.CalculateVersion(context);
             var expected = SemanticVersion.Parse("1.0.1");
-            
+
             Assert.That(version, Is.EqualTo(expected));
         }
 

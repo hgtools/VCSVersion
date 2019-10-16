@@ -1,4 +1,4 @@
-#load nuget:https://www.myget.org/F/cake-contrib/api/v2?package=Cake.Recipe&prerelease
+#load nuget:?package=Cake.Recipe&version=1.1.0
 
 Environment.SetVariableNames();
 
@@ -7,11 +7,15 @@ BuildParameters.SetParameters(
     buildSystem: BuildSystem,
     sourceDirectoryPath: "./src",
     title: "VCSVersion",
-    repositoryOwner: "vCipher",
+    repositoryOwner: "hgtools",
     repositoryName: "VCSVersion",
-    appVeyorAccountName: "vCipher",
+    appVeyorAccountName: "hgtools",
+    shouldPostToGitter: false,
+    shouldPostToSlack: false,
+    shouldPostToTwitter: false,
+    shouldPostToMicrosoftTeams: false,
     shouldRunCodecov: false,
-    shouldRunDotNetCorePack: true,
+    shouldRunGitVersion: true,
     solutionFilePath: "./src/VCSVersion.sln");
 
 BuildParameters.PrintParameters(Context);
