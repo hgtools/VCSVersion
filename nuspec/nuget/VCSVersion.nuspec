@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>VCSVersion</id>
+    <title>VCSVersion</title>
+    <version>0.0.0</version>
+    <authors>vCipher</authors>
+    <owners>vCipher, phantomtypist, hgtools, gep13</owners>
+    <description>Provide Semantic versioning using Version Control System history.</description>
+    <projectUrl>https://github.com/hgtools/VCSVersion</projectUrl>
+    <iconUrl>https://avatars2.githubusercontent.com/u/49282992?v=3&amp;s=64</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <copyright>Copyright (c) vCipher 2017</copyright>
+    <license type="expression">MIT</license>
+    <repository type="git" url="https://github.com/hgtools/VCSVersion.git"/>
+    <tags>vcs semver</tags>
+    <dependencies>
+      <dependency id="YamlDotNet" version="5.4.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="net461/VCSVersion.dll" target="lib/net461" />
+    <file src="net461/VCSVersion.pdb" target="lib/net461" />
+    <file src="net461/VCSVersion.xml" target="lib/net461" />
+    <file src="netstandard2.0/VCSVersion.dll" target="lib/netstandard2.0" />
+    <file src="netstandard2.0/VCSVersion.pdb" target="lib/netstandard2.0" />
+    <file src="netstandard2.0/VCSVersion.xml" target="lib/netstandard2.0" />
+  </files>
+</package>

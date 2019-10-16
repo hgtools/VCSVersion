@@ -4,12 +4,12 @@
     <AssemblyName>VCSVersion</AssemblyName>
     <PackageId>VCSVersion</PackageId>
     <Authors>vCipher</Authors>
-    <Description>Provide Semantic versioning using Version Control System history</Description>
+    <Description>Provide Semantic versioning using Version Control System history.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Copyright>Copyright © vCipher 2017</Copyright>
-    <PackageProjectUrl>https://github.com/vCipher/VCSVersion</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/vCipher/VCSVersion</RepositoryUrl>
-    <PackageTags>cake vcs semver</PackageTags>
+    <PackageProjectUrl>https://github.com/hgtools/VCSVersion</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hgtools/VCSVersion</RepositoryUrl>
+    <PackageTags>vcs semver</PackageTags>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>

@@ -1,28 +1,40 @@
-# Build script
+#---------------------------------#
+#  Build Image                    #
+#---------------------------------#
+image: Visual Studio 2017
+
+#---------------------------------#
+#  Build Init                     #
+#---------------------------------#
 init:
   - git config --global core.autocrlf true
 
-image: Visual Studio 2017
-
-# Build script
+#---------------------------------#
+#  Build Script                   #
+#---------------------------------#
 build_script:
-  - ps: .\build.ps1 -Target AppVeyor -Verbosity Diagnostic
+  - ps: .\build.ps1 --target="AppVeyor"
 
+#---------------------------------#
 # Tests
+#---------------------------------#
 test: off
 
-# Branches to build
+#---------------------------------#
+#        Branches to build        #
+#---------------------------------#
 branches:
   # Whitelist
   only:
     - develop
     - master
-    - /r/.*/
     - /release/.*/
     - /hotfix/.*/
     - /feature/.*/
-    - /improve/.*/
 
-# Build cache
+#---------------------------------#
+#  Build Cache                    #
+#---------------------------------#
 cache:
-- tools -> setup.cake
+- tools -> build.cake
+- packages -> build.cake
