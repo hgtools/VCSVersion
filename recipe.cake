@@ -15,7 +15,6 @@ BuildParameters.SetParameters(
     shouldPostToTwitter: false,
     shouldPostToMicrosoftTeams: false,
     shouldRunCodecov: false,
-    shouldRunDotNetCorePack: true,
     shouldRunGitVersion: true,
     solutionFilePath: "./src/VCSVersion.sln");
 
